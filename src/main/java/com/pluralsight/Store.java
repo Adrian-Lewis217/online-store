@@ -173,6 +173,43 @@ public class Store {
                                 double totalAmount,
                                 Scanner scanner) {
         // TODO: implement steps listed above
+        System.out.print("Are you ready to checkout(Y/N): ");
+        String choose = scanner.nextLine();
+
+        if (choose.equalsIgnoreCase("Y")){
+            System.out.println("Total Amount: $" + totalAmount);
+
+            System.out.print("Enter Payment Amount: $");
+            double payment = scanner.nextDouble();
+            scanner.nextLine();
+
+            while (payment < totalAmount) {
+                System.out.print("Enter payment amount: $");
+                payment = scanner.nextDouble();
+
+                if (payment < totalAmount) {
+                    System.out.println("Not enough money. Please enter at least $" + totalAmount);
+                }
+            }
+            scanner.nextLine();
+
+            double change = payment - totalAmount;
+
+            System.out.println("\n----- RECEIPT -----");
+            for (Product product : cart) {
+                System.out.println(product);
+            }
+            System.out.println("-------------------");
+            System.out.println("Total: $" + totalAmount);
+            System.out.println("Paid: $" + payment);
+            System.out.println("Change: $" + change);
+
+            cart.clear();
+
+            System.out.println("Thank you for your purchase!");
+        } else {
+            System.out.println("Checkout cancelled.");
+        }
     }
 
     /**
