@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -63,6 +65,36 @@ public class Store {
     public static void loadInventory(String fileName, ArrayList<Product> inventory) {
         // TODO: skip the header line, then read each line, split on "|",
         //       create a Product object, and add it to the inventory list
+
+        // The store's inventory display
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
+
+            String line;
+
+            // skip the header line
+            br.readLine();
+
+            while ((line = br.readLine()) != null){
+
+                String[] sections = line.split("\\|");
+
+                if (sections.length != 4){
+                    System.out.println("Invalid record: " + line);
+                    continue;
+                }
+
+                String productId = sections[0];
+                String productName = sections[1];
+                double productPrice = Double.parseDouble(sections[2]);
+                String productLocation = sections[3];
+                inventory.add(new Product(productId, productName, productPrice, productLocation));
+            }
+            br.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
     }
 
     /**
