@@ -139,6 +139,27 @@ public class Store {
         //   • compute the total cost
         //   • ask the user whether to check out (C) or return (X)
         //   • if C, call checkOut(cart, totalAmount, scanner)
+
+        if (cart.isEmpty()){
+            System.out.println("Your cart is empty.");
+            return;
+        }
+
+        double totalCost = 0.0;
+
+        for (Product product : cart) {
+            System.out.println(product);
+
+            totalCost += product.getProductPrice();
+        }
+        System.out.println("Total Cost: $" + totalCost);
+
+        System.out.println("Enter C to checkout or X to return: ");
+        String option = scanner.nextLine();
+
+        if (option.equalsIgnoreCase("C")){
+            checkOut(cart, totalCost, scanner);
+        }
     }
 
     /**
