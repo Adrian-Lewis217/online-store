@@ -106,6 +106,27 @@ public class Store {
                                        Scanner scanner) {
         // TODO: show each product (id, name, price),
         //       prompt for an id, find that product, add to cart
+        // Display the inventory, prompt for an id to find product and add it to cart
+
+        // Display Inventory
+        for (int i = 0; i < inventory.size(); i++) {
+            Product product = inventory.get(i);
+
+            System.out.println(product);
+        }
+
+        System.out.print("Enter product ID: ");
+        String id = scanner.nextLine();
+
+        Product selectedProduct = findProductById(id, inventory);
+
+        if (selectedProduct != null){
+            cart.add(selectedProduct);
+            System.out.println(selectedProduct.getProductName() + " added to cart.");
+        } else {
+            System.out.println("Product not found.");
+        }
+
     }
 
     /**
@@ -140,6 +161,13 @@ public class Store {
      */
     public static Product findProductById(String id, ArrayList<Product> inventory) {
         // TODO: loop over the list and compare ids
+
+        // Find the product
+        for (Product product : inventory) {
+            if (product.getProductId().equalsIgnoreCase(id)){
+                return product;
+            }
+        }
         return null;
     }
 }
