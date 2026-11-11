@@ -1,4 +1,4 @@
-# Project Title
+# PotaMart
 
 <!-- HOW TO USE THIS TEMPLATE
      Save it as README.md at the root of your project, next to pom.xml. Replace every comment like this one
@@ -8,11 +8,15 @@
 
 <!-- One sentence under the title: what the app is, for whom.
      Example: A console app that keeps a store's inventory in a csv file and lets a clerk search it. -->
+A console app that keeps a store's inventory in a csv file and lets a user search it and check out.
 
 ## Description of the Project
 
 <!-- Three to five sentences. What the application does, who uses it, what problem it solves.
      Write it for someone who has never seen the workbook: a recruiter, a classmate, you in six months. -->
+This application shows the user the store's products through a CSV file and allows you to add products to a cart. 
+You can view products that was added to cart, and it will show you the current total price of the items. 
+You could process to check out these products with your payment of choose or return to home screen or add more to cart.
 
 
 ## Features
@@ -24,9 +28,9 @@
      - Shows every product in the store
      - Searches products by name (bonus) -->
 
--
--
--
+- show products
+- show cart
+- Check out products
 
 ## User Stories
 
@@ -34,8 +38,9 @@
      As a [type of user], I want [some goal] so that [some reason].
      Same text as the cards on your GitHub project board. -->
 
-- As a ..., I want ..., so that ...
-- As a ..., I want ..., so that ...
+- As a customer, I want to view all products in the store, so that I can check the store's available products
+- As a customer, I want to add products to my cart, so that I can see my list of products to order
+- As a customer, I want to check out my items, so that I can purchase my list of products
 
 ## Setup
 
@@ -51,17 +56,6 @@
 3. Wait for IntelliJ to finish indexing (progress bar at the bottom).
 4. Open `src/main/java/com/pluralsight/YourMainClassName.java`. <!-- replace YourMainClassName with the class that has main -->
 5. Right-click inside the file and choose Run 'YourMainClassName.main()'.
-
-### Data and configuration
-
-<!-- OPTIONAL. Anything the program needs that is not code: data files and where they must sit, files the
-     program creates, a database script to run first, a settings file to edit (connection, port).
-     If there is nothing, delete this subsection, heading included.
-     Example:
-     - `inventory.csv` sits at the project root, next to `pom.xml`. The program reads it at start.
-     - `logs.txt` is created by the program at the project root on the first run. -->
-
--
 
 ## Technologies Used
 
@@ -84,9 +78,9 @@
      Optional GIF: LICEcap (free, Windows and Mac, <https://www.cockos.com/licecap/>) records a region of the
      screen straight to a .gif. Keep it under 10 seconds and under 10 MB, save it into `images`. -->
 
-![Main menu](images/menu.png)
+![Main menu](images/home-screen.png)
 
-![One feature in action](images/feature.png)
+![One feature in action](images/cart.png)
 
 ## A piece of code I am proud of
 
@@ -95,31 +89,51 @@
      demo day and what you talk about in an interview. -->
 
 ```java
+ System.out.println("Which Payment Method:");
+            System.out.println("1. Credit Card");
+            System.out.println("2. Debit Card");
+            System.out.println();
 
+
+            System.out.print("Choose a Payment Method: ");
+            String paymentChoice = scanner.nextLine();
+            String paymentMethod;
+
+            switch (paymentChoice) {
+                case "1":
+                    paymentMethod = "Credit Card";
+                    break;
+                case "2":
+                    paymentMethod = "Debit Card";
+                    break;
+                default:
+                    System.out.println("Invalid payment method.");
+                    return;
 ```
-
+This code prompts the user for a payment method before writing the receipt. I wanted to practice more with switch case so I can improve my understanding of when and how to use it.
 ## Future Work
 
 <!-- What you would add or fix next, one bullet each. Unfinished bonuses belong here. -->
 
--
--
+- add a logo and colors
+- display the quantity for each item in the cart
+
 
 ## Resources
 
 <!-- What helped you: the workbook, the week's hub pages, a tutorial, a documentation page. Real links. -->
 
 - Java YearUp Fall 2026 hub: <https://raymaroun.github.io/yearup-java-fall2026/>
--
+- CoPilot AI agent: <https://copilot.cloud.microsoft/chat/agent/T_20b53e3f-d488-d128-27fc-440ed32e7a02.eade2051-4773-4cb0-aa3e-b17cdf11ebd4.gpt.17fde386-a7a1-4dd0-a089-a0b0a70bb567?fromcode=cmmu8qodiz1&lhredirected=1&es=AutoSignIn>
 
 ## Author
 
 <!-- Your name and, if you like, your GitHub profile link. For a team workshop, one line per person with what each one built. -->
 
-- **Your Name**
+- **Adrian Lewis**
 
 ## Thanks
 
 <!-- Optional. The people who helped: the instructor, a classmate who debugged with you, a mentor. -->
 
-- Thank you to ... for ...
+- Thank you to Raymond for Skeleton structure and CSV file
