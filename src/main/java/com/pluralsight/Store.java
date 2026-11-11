@@ -108,29 +108,35 @@ public class Store {
         //       prompt for an id, find that product, add to cart
         // Display the inventory, prompt for an id to find product and add it to cart
 
-        // Display Inventory
-        for (Product product : inventory) {
-            System.out.println(product);
+        while (true) {
+
+            // Display Inventory
+            for (Product product : inventory) {
+                System.out.println(product);
+            }
+            System.out.println("--- --- --- --- --- --- ---");
+            System.out.println();
+
+            System.out.print("Enter product ID (or X to return): ");
+            String id = scanner.nextLine();
+
+            System.out.println("--- --- --- --- --- --- ---");
+
+            if (id.equalsIgnoreCase("X")) {
+                break;
+            }
+
+            Product selectedProduct = findProductById(id, inventory);
+
+            if (selectedProduct != null) {
+                cart.add(selectedProduct);
+                System.out.println(selectedProduct.getProductName() + " added to cart.");
+            } else {
+                System.out.println("Product not found.");
+            }
+
         }
-
-        System.out.print("Enter product ID (or X to return): ");
-        String id = scanner.nextLine();
-
-        if (id.equalsIgnoreCase("X")){
-            return;
-        }
-
-        Product selectedProduct = findProductById(id, inventory);
-
-        if (selectedProduct != null){
-            cart.add(selectedProduct);
-            System.out.println(selectedProduct.getProductName() + " added to cart.");
-        } else {
-            System.out.println("Product not found.");
-        }
-
     }
-
     /**
      * Shows the contents of the cart, calculates the total,
      * and offers the option to check out.
@@ -155,6 +161,8 @@ public class Store {
             totalCost += product.getProductPrice();
         }
         System.out.println("Total Cost: $" + totalCost);
+
+        System.out.println("---------------------");
 
         System.out.println("Enter C to checkout or X to return: ");
         String option = scanner.nextLine();
@@ -227,9 +235,9 @@ public class Store {
 
             System.out.println("-------------------");
             System.out.println("Payment Method: " + paymentMethod);
-            System.out.println("Total: $" + totalAmount);
-            System.out.println("Paid: $" + payment);
-            System.out.println("Change: $" + change);
+            System.out.printf("Total: $%.2f%n", totalAmount);
+            System.out.printf("Paid: $%.2f%n", payment);
+            System.out.printf("Change: $%.2f%n", change);
 
             cart.clear();
 
