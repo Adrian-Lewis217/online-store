@@ -109,14 +109,16 @@ public class Store {
         // Display the inventory, prompt for an id to find product and add it to cart
 
         // Display Inventory
-        for (int i = 0; i < inventory.size(); i++) {
-            Product product = inventory.get(i);
-
+        for (Product product : inventory) {
             System.out.println(product);
         }
 
-        System.out.print("Enter product ID: ");
+        System.out.print("Enter product ID (or X to return): ");
         String id = scanner.nextLine();
+
+        if (id.equalsIgnoreCase("X")){
+            return;
+        }
 
         Product selectedProduct = findProductById(id, inventory);
 
@@ -159,6 +161,8 @@ public class Store {
 
         if (option.equalsIgnoreCase("C")){
             checkOut(cart, totalCost, scanner);
+        }  else if (option.equalsIgnoreCase("X")) {
+            return;
         }
     }
 
@@ -179,18 +183,39 @@ public class Store {
         if (choose.equalsIgnoreCase("Y")){
             System.out.println("Total Amount: $" + totalAmount);
 
+            System.out.println("Which Payment Method:");
+            System.out.println("1. Credit Card");
+            System.out.println("2. Debit Card");
+            System.out.println();
+
+
+            System.out.print("Choose a Payment Method: ");
+            String paymentChoice = scanner.nextLine();
+            String paymentMethod;
+
+            switch (paymentChoice) {
+                case "1":
+                    paymentMethod = "Credit Card";
+                    break;
+                case "2":
+                    paymentMethod = "Debit Card";
+                    break;
+                default:
+                    System.out.println("Invalid payment method.");
+                    return;
+            }
+
             System.out.print("Enter Payment Amount: $");
             double payment = scanner.nextDouble();
             scanner.nextLine();
 
             while (payment < totalAmount) {
-                System.out.print("Enter payment amount: $");
-                payment = scanner.nextDouble();
+                System.out.printf("Not enough money. Please enter at least $%.2f%n",totalAmount);
 
-                if (payment < totalAmount) {
-                    System.out.println("Not enough money. Please enter at least $" + totalAmount);
-                }
+                System.out.print("Enter Payment Amount: $");
+                payment = scanner.nextDouble();
             }
+
             scanner.nextLine();
 
             double change = payment - totalAmount;
@@ -199,7 +224,9 @@ public class Store {
             for (Product product : cart) {
                 System.out.println(product);
             }
+
             System.out.println("-------------------");
+            System.out.println("Payment Method: " + paymentMethod);
             System.out.println("Total: $" + totalAmount);
             System.out.println("Paid: $" + payment);
             System.out.println("Change: $" + change);
@@ -209,8 +236,18 @@ public class Store {
             System.out.println("Thank you for your purchase!");
         } else {
             System.out.println("Checkout cancelled.");
+
+                System.out.println("1. Return to Cart");
+                System.out.println("2. Return to Home Screen");
+                System.out.print("Choose an option: ");
+
+                String option = scanner.nextLine();
+
+                if (option.equals("1")) {
+                    displayCart(cart, scanner);
+                }
+            }
         }
-    }
 
     /**
      * Searches a list for a product by its id.
