@@ -5,16 +5,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * Starter code for the Online Store workshop.
- * Learners will complete the TODO sections to make the program work.
- * <p>
- * What is already done for you: the two lists, the Home Screen loop and
- * the method headers. Each TODO says what that method has to do.
- * Product.java is complete; products.csv sits at the project root.
- * You will need extra imports (for example java.io.BufferedReader,
- * java.io.FileReader, java.io.IOException) as you fill the TODOs in.
- */
+
 public class Store {
 
     public static void main(String[] args) {
@@ -36,13 +27,14 @@ public class Store {
             System.out.println("3. Exit");
             System.out.print("Your choice: ");
 
+            // If user enters wrong number
             if (!scanner.hasNextInt()) {
                 System.out.println("Please enter 1, 2, or 3.");
-                scanner.nextLine();                 // discard bad input
+                scanner.nextLine();
                 continue;
             }
             choice = scanner.nextInt();
-            scanner.nextLine();                     // clear newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1 -> displayProducts(inventory, cart, scanner);
@@ -54,17 +46,8 @@ public class Store {
         scanner.close();
     }
 
-    /**
-     * Reads product data from a file and populates the inventory list.
-     * File format (pipe-delimited), the first line is a header row:
-     * SKU|Product Name|Price|Department
-     * <p>
-     * Example line:
-     * AV1051|JBL Bluetooth Speaker|89.95|Audio Video
-     */
+
     public static void loadInventory(String fileName, ArrayList<Product> inventory) {
-        // TODO: skip the header line, then read each line, split on "|",
-        //       create a Product object, and add it to the inventory list
 
         // The store's inventory display
         try {
@@ -75,15 +58,16 @@ public class Store {
             // skip the header line
             br.readLine();
 
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
 
                 String[] sections = line.split("\\|");
 
-                if (sections.length != 4){
+                if (sections.length != 4) {
                     System.out.println("Invalid record: " + line);
                     continue;
                 }
 
+                // Split fields
                 String productId = sections[0];
                 String productName = sections[1];
                 double productPrice = Double.parseDouble(sections[2]);
@@ -97,16 +81,9 @@ public class Store {
 
     }
 
-    /**
-     * Displays all products and lets the user add one to the cart.
-     * Typing X returns to the main menu.
-     */
     public static void displayProducts(ArrayList<Product> inventory,
                                        ArrayList<Product> cart,
                                        Scanner scanner) {
-        // TODO: show each product (id, name, price),
-        //       prompt for an id, find that product, add to cart
-        // Display the inventory, prompt for an id to find product and add it to cart
 
         while (true) {
 
@@ -126,6 +103,7 @@ public class Store {
                 break;
             }
 
+            // find the selected product in the inventory
             Product selectedProduct = findProductById(id, inventory);
 
             if (selectedProduct != null) {
@@ -137,22 +115,15 @@ public class Store {
 
         }
     }
-    /**
-     * Shows the contents of the cart, calculates the total,
-     * and offers the option to check out.
-     */
-    public static void displayCart(ArrayList<Product> cart, Scanner scanner) {
-        // TODO:
-        //   • list each product in the cart
-        //   • compute the total cost
-        //   • ask the user whether to check out (C) or return (X)
-        //   • if C, call checkOut(cart, totalAmount, scanner)
 
-        if (cart.isEmpty()){
+    public static void displayCart(ArrayList<Product> cart, Scanner scanner) {
+
+        if (cart.isEmpty()) {
             System.out.println("Your cart is empty.");
             return;
         }
 
+        // Starter Value for Total Cost
         double totalCost = 0.0;
 
         for (Product product : cart) {
@@ -167,28 +138,22 @@ public class Store {
         System.out.println("Enter C to checkout or X to return: ");
         String option = scanner.nextLine();
 
-        if (option.equalsIgnoreCase("C")){
+        if (option.equalsIgnoreCase("C")) {
             checkOut(cart, totalCost, scanner);
-        }  else if (option.equalsIgnoreCase("X")) {
+        } else if (option.equalsIgnoreCase("X")) {
             return;
         }
     }
 
-    /**
-     * Handles the checkout process:
-     * 1. Confirm that the user wants to buy.
-     * 2. Accept payment and calculate change.
-     * 3. Display a simple receipt.
-     * 4. Clear the cart.
-     */
     public static void checkOut(ArrayList<Product> cart,
                                 double totalAmount,
                                 Scanner scanner) {
-        // TODO: implement steps listed above
+
+        // check if user want to continue with check out
         System.out.print("Are you ready to checkout(Y/N): ");
         String choose = scanner.nextLine();
 
-        if (choose.equalsIgnoreCase("Y")){
+        if (choose.equalsIgnoreCase("Y")) {
             System.out.println("Total Amount: $" + totalAmount);
 
             System.out.println("Which Payment Method:");
@@ -217,9 +182,11 @@ public class Store {
             double payment = scanner.nextDouble();
             scanner.nextLine();
 
+            // if user enters an amount less than the total cost
             while (payment < totalAmount) {
-                System.out.printf("Not enough money. Please enter at least $%.2f%n",totalAmount);
+                System.out.printf("Not enough money. Please enter at least $%.2f%n", totalAmount);
 
+                // reprompt for payment
                 System.out.print("Enter Payment Amount: $");
                 payment = scanner.nextDouble();
             }
@@ -245,25 +212,19 @@ public class Store {
         } else {
             System.out.println("Checkout cancelled.");
 
-                System.out.println("1. Return to Cart");
-                System.out.println("2. Return to Home Screen");
-                System.out.print("Choose an option: ");
+            System.out.println("1. Return to Cart");
+            System.out.println("2. Return to Home Screen");
+            System.out.print("Choose an option: ");
 
-                String option = scanner.nextLine();
+            String option = scanner.nextLine();
 
-                if (option.equals("1")) {
-                    displayCart(cart, scanner);
-                }
+            if (option.equals("1")) {
+                displayCart(cart, scanner);
             }
         }
+    }
 
-    /**
-     * Searches a list for a product by its id.
-     *
-     * @return the matching Product, or null if not found
-     */
     public static Product findProductById(String id, ArrayList<Product> inventory) {
-        // TODO: loop over the list and compare ids
 
         // Find the product
         for (Product product : inventory) {
